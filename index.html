@@ -595,8 +595,8 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 50px;">
                     <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
                         <h3 style="font-size: 20px; margin-bottom: 15px;">Weather</h3>
-                        <p><span id="weather-temp">72°F (22°C)</span> in <span id="weather-location">Your City</span></p>
-                        <p style="color: #666;">Partly cloudy</p>
+                        <p id="weather-temp">Loading weather...</p>
+                        <p style="color: #666;" id="weather-desc">Checking conditions...</p>
                     </div>
                     <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
                         <h3 style="font-size: 20px; margin-bottom: 15px;">Body Type</h3>
@@ -883,15 +883,11 @@
                     var tempC = Math.round((tempF - 32) * 5/9);
                     var condition = data.weather[0].main;
                     var description = data.weather[0].description;
+                    var locationName = data.name + ', ' + data.sys.country;
                     
-                    document.getElementById('weather-temp').textContent = tempF + '°F (' + tempC + '°C)';
-                    document.getElementById('weather-location').textContent = data.name + ', ' + data.sys.country;
-                    
-                    // Update weather description
-                    var weatherBox = document.querySelector('#results-screen .container > div:first-of-type > div:first-child p:last-child');
-                    if (weatherBox) {
-                        weatherBox.textContent = description.charAt(0).toUpperCase() + description.slice(1);
-                    }
+                    // Update weather display
+                    document.getElementById('weather-temp').textContent = tempF + '°F (' + tempC + '°C) in ' + locationName;
+                    document.getElementById('weather-desc').textContent = description.charAt(0).toUpperCase() + description.slice(1);
                     
                     // Show results with weather-adjusted recommendations (using Celsius for logic)
                     showResults(tempC, condition);
@@ -899,8 +895,8 @@
                 .catch(function(error) {
                     console.error('Weather fetch error:', error);
                     // Show results anyway with default weather
-                    document.getElementById('weather-location').textContent = userLocation;
-                    document.getElementById('weather-temp').textContent = '72°F (22°C)';
+                    document.getElementById('weather-temp').textContent = '72°F (22°C) in ' + userLocation;
+                    document.getElementById('weather-desc').textContent = 'Unable to fetch weather';
                     showResults(22, 'Clear');
                 });
         }
