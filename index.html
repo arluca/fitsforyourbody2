@@ -1,0 +1,952 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fits ForYourBody</title>
+    <style> 
+        body {
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+            color: #2c2c2c;
+        }
+
+        .header {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .mission {
+            background: #f8f9fa;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .mission h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .mission p {
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .hero {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .hero-image {
+            background: #f1f3f4;
+            height: 400px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .photo-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .photo-placeholder {
+            background: #f1f3f4;
+            height: 300px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .how-works {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .how-works h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .works-boxes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .work-box {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .work-box:hover {
+            transform: translateY(-8px);
+        }
+
+        .work-box .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .work-box h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .work-box p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .research-banner {
+            background: white;
+            padding: 50px 60px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .research-banner h3 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #2c2c2c;
+        }
+
+        .research-banner p {
+            font-size: 17px;
+            color: #555;
+            line-height: 1.9;
+            text-align: justify;
+        }
+
+        .btn {
+            background: #2c2c2c;
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #000;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .upload-section {
+            padding: 80px 0;
+        }
+
+        .upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .form-card h3 {
+            font-size: 22px;
+            margin-bottom: 25px;
+        }
+
+        .upload-area {
+            border: 3px dashed #ddd;
+            padding: 50px 20px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #999;
+            background: #f0f0f0;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background: #fafafa;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #2c2c2c;
+            background: white;
+        }
+
+        .quiz-card {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .quiz-question {
+            margin-bottom: 30px;
+        }
+
+        .quiz-question h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c2c2c;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            text-align: left;
+        }
+
+        .quiz-option:hover {
+            border-color: #2c2c2c;
+            background: #f8f9fa;
+        }
+
+        .quiz-option.selected {
+            border-color: #2c2c2c;
+            background: #2c2c2c;
+            color: white;
+        }
+
+        .style-prefs {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            border: 2px solid #ddd;
+            margin-top: 25px;
+        }
+
+        .style-btn {
+            padding: 15px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s ease;
+        }
+
+        .style-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .style-btn.active {
+            background: #2c2c2c;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-grid, .upload-grid, .photo-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .hero h2 {
+                font-size: 36px;
+            }
+
+            .works-boxes {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .research-banner {
+                padding: 30px 25px;
+            }
+
+            .research-banner p {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>FITS FOR YOUR BODY</h1>
+    </header>
+
+    <section class="mission">
+        <div class="container">
+            <h2>Our Mission</h2>
+            <p>We believe everyone deserves to feel confident in their clothing choices. Our platform addresses clothing and body insecurity by providing a supportive, evidence-based approach to personal styling. By serving as a helpful middleman in deciding what to wear, we empower users to embrace their unique body type and feel their most confident self through fashion choices that truly work for them.</p>
+        </div>
+    </section>
+
+    <div id="welcome-screen">
+        <section class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <div>
+                        <h2>Discover Your Perfect Style</h2>
+                        <p>Get personalized, research-backed fashion recommendations tailored to your unique body type and current weather. Our evidence-based approach helps you feel confident and look amazing in styles that truly work for you.</p>
+                        <button class="btn" onclick="startUpload()">Begin Style Journey</button>
+                    </div>
+                    <div class="hero-image">
+                        Fashion Photography Placeholder 1
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="photo-section">
+            <div class="container">
+                <div class="photo-grid">
+                    <div class="photo-placeholder">
+                        Fashion Photography Placeholder 2
+                    </div>
+                    <div class="photo-placeholder">
+                        Fashion Photography Placeholder 3
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-works">
+            <div class="container">
+                <h2>How It Works</h2>
+                <div class="works-boxes">
+                    <div class="work-box">
+                        <div class="icon">📷</div>
+                        <h3>Upload Photo</h3>
+                        <p>Share a full-body photo for personalized body type analysis. Your privacy is completely protected.</p>
+                    </div>
+                    <div class="work-box">
+                        <div class="icon">🧠</div>
+                        <h3>AI Analysis</h3>
+                        <p>Our advanced algorithm analyzes your unique body proportions and local weather conditions to generate personalized styling recommendations.</p>
+                    </div>
+                    <div class="work-box">
+                        <div class="icon">✨</div>
+                        <h3>Style Recommendations</h3>
+                        <p>Receive curated style suggestions with direct Pinterest inspiration links for endless outfit possibilities.</p>
+                    </div>
+                </div>
+
+                <div class="research-banner">
+                    <h3>Research-Backed Recommendations</h3>
+                    <p>All recommendations are grounded in peer-reviewed academic studies from computer vision and fashion research. Our approach is based on analysis of over 18,000 celebrity images with body measurements and clothing preferences (Hidayati et al., 2018), understanding clothing compatibility through body shape correlation using the Fashion Takes Shape dataset with 181 users (Sattar et al., 2019), and style guidelines from fashion experts. The research demonstrates strong correlations between body shapes and clothing categories, with studies showing that certain garments (like wrap dresses for hourglass, peplum tops for rectangle, straight tunics for circle, printed blouses for triangle, and palazzo pants for inverted triangle) significantly enhance body proportions and create visual balance.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="upload-screen" class="hidden">
+        <section class="upload-section">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 60px;">
+                    <h2 style="font-size: 42px; margin-bottom: 20px;">Let's Get Started</h2>
+                    <p style="font-size: 20px; color: #666;">Upload your photo and location for personalized recommendations</p>
+                </div>
+
+                <div class="upload-grid">
+                    <div class="form-card">
+                        <h3>Your Photo</h3>
+                        <div onclick="clickUpload()" class="upload-area">
+                            <div id="photo-preview" class="hidden">
+                                <img id="preview-image" style="max-height: 250px; border-radius: 8px; margin-bottom: 20px;" />
+                                <p style="font-size: 14px; color: #666;">Photo uploaded. Click to change.</p>
+                            </div>
+                            <div id="photo-placeholder">
+                                <div style="font-size: 48px; margin-bottom: 20px; color: #999;">📷</div>
+                                <p style="font-size: 18px; margin-bottom: 10px; color: #333;">Upload Full-Body Photo</p>
+                                <p style="font-size: 14px; color: #999;">Your photo stays private and secure</p>
+                            </div>
+                        </div>
+                        <input id="photo-input" type="file" accept="image/*" style="display: none;" />
+                    </div>
+
+                    <div class="form-card">
+                        <h3>Your Location</h3>
+                        <input
+                            id="location-input"
+                            type="text"
+                            placeholder="Enter your city or location"
+                            autocomplete="off"
+                        />
+                        <div style="background: #e3f2fd; border: 1px solid #bbdefb; padding: 20px; border-radius: 4px; margin-top: 20px;">
+                            <p style="font-size: 14px; color: #1565c0;">We use your location to provide weather-appropriate styling recommendations.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-card">
+                    <h3 style="text-align: center; margin-bottom: 30px;">Body Type Quiz</h3>
+                    <p style="text-align: center; color: #666; margin-bottom: 30px;">Answer these questions to help determine your body shape</p>
+                    
+                    <div class="quiz-question">
+                        <h4>1. How would you describe your shoulders compared to your hips?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectQuizOption(1, 'a', this)">About the same width</div>
+                            <div class="quiz-option" onclick="selectQuizOption(1, 'b', this)">Shoulders are wider than hips</div>
+                            <div class="quiz-option" onclick="selectQuizOption(1, 'c', this)">Hips are wider than shoulders</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>2. How defined is your waist?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectQuizOption(2, 'a', this)">Very defined - curves inward significantly</div>
+                            <div class="quiz-option" onclick="selectQuizOption(2, 'b', this)">Slightly defined</div>
+                            <div class="quiz-option" onclick="selectQuizOption(2, 'c', this)">Not very defined - straighter silhouette</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>3. Where do you tend to gain weight first?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectQuizOption(3, 'a', this)">Evenly distributed</div>
+                            <div class="quiz-option" onclick="selectQuizOption(3, 'b', this)">Around the waist/midsection</div>
+                            <div class="quiz-option" onclick="selectQuizOption(3, 'c', this)">Around the hips and thighs</div>
+                            <div class="quiz-option" onclick="selectQuizOption(3, 'd', this)">Upper body and arms</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>4. Which best describes your overall body silhouette?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectQuizOption(4, 'a', this)">Balanced curves - bust and hips similar size</div>
+                            <div class="quiz-option" onclick="selectQuizOption(4, 'b', this)">Athletic and straight</div>
+                            <div class="quiz-option" onclick="selectQuizOption(4, 'c', this)">Fuller midsection</div>
+                            <div class="quiz-option" onclick="selectQuizOption(4, 'd', this)">Pear-shaped - bottom heavier</div>
+                            <div class="quiz-option" onclick="selectQuizOption(4, 'e', this)">Top-heavy with narrower hips</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>5. What is your height?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectQuizOption(5, 'a', this)">Under 5'3" (160 cm) - Petite</div>
+                            <div class="quiz-option" onclick="selectQuizOption(5, 'b', this)">5'3" - 5'7" (160-170 cm) - Average</div>
+                            <div class="quiz-option" onclick="selectQuizOption(5, 'c', this)">5'8" - 5'11" (171-180 cm) - Tall</div>
+                            <div class="quiz-option" onclick="selectQuizOption(5, 'd', this)">6'0"+ (181+ cm) - Very Tall</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <button id="quiz-submit-btn" onclick="submitQuiz()" class="btn" disabled>
+                        See My Body Type
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="body-type-result-screen" class="hidden">
+        <section class="upload-section">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 60px;">
+                    <h2 style="font-size: 42px; margin-bottom: 20px;">Your Body Type</h2>
+                    <p style="font-size: 20px; color: #666;">Here's what we discovered about your unique shape</p>
+                </div>
+
+                <div style="background: white; padding: 60px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 700px; margin: 0 auto 40px; text-align: center;">
+                    <div style="font-size: 72px; margin-bottom: 30px;">👤</div>
+                    <h3 id="result-body-type-name" style="font-size: 36px; margin-bottom: 20px; color: #2c2c2c;"></h3>
+                    <p id="result-body-type-desc" style="font-size: 20px; color: #666; margin-bottom: 30px; line-height: 1.8;"></p>
+                    <p id="result-height-info" style="font-size: 18px; color: #888; margin-bottom: 40px;"></p>
+                    <button onclick="proceedToStylePreferences()" class="btn">Choose Your Style Preferences</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="style-preference-screen" class="hidden">
+        <section class="upload-section">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 60px;">
+                    <h2 style="font-size: 42px; margin-bottom: 20px;">Choose Your Style</h2>
+                    <p style="font-size: 20px; color: #666;">Select the style that resonates with you</p>
+                </div>
+
+                <div class="style-prefs" style="max-width: 700px;">
+                    <h3 style="text-align: center; margin-bottom: 30px;">Style Preferences</h3>
+                    <div class="style-grid">
+                        <button onclick="chooseStyle('all')" id="style-all" class="style-btn active">All</button>
+                        <button onclick="chooseStyle('feminine')" id="style-feminine" class="style-btn">Feminine</button>
+                        <button onclick="chooseStyle('masculine')" id="style-masculine" class="style-btn">Masculine</button>
+                        <button onclick="chooseStyle('unisex')" id="style-unisex" class="style-btn">Unisex</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 50px;">
+                    <button onclick="runAnalysis()" class="btn">
+                        Get My Recommendations
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="results-screen" class="hidden">
+        <section style="padding: 80px 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 60px;">
+                    <h2 style="font-size: 42px; margin-bottom: 20px;">Your Style Guide</h2>
+                    <p style="font-size: 20px; color: #666;">Evidence-based recommendations for you</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 50px;">
+                    <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                        <h3 style="font-size: 20px; margin-bottom: 15px;">Weather</h3>
+                        <p><span id="weather-temp">22</span>°C in <span id="weather-location">Your City</span></p>
+                        <p style="color: #666;">Partly cloudy</p>
+                    </div>
+                    <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                        <h3 style="font-size: 20px; margin-bottom: 15px;">Body Type</h3>
+                        <p style="font-weight: bold;"><span id="body-type-name">Rectangle</span></p>
+                        <p style="color: #666;" id="body-type-desc">Balanced straight silhouette</p>
+                    </div>
+                </div>
+
+                <div id="recommendations-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px;"></div>
+
+                <div style="text-align: center;">
+                    <button onclick="restart()" class="btn">Try Another Look</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        var userPhoto = null;
+        var userLocation = '';
+        var styleChoice = 'all';
+        var userBodyType = '';
+        var quizAnswers = {
+            q1: null,
+            q2: null,
+            q3: null,
+            q4: null,
+            q5: null
+        };
+
+        var bodyData = {
+            hourglass: {
+                name: "Hourglass",
+                description: "Balanced curves with defined waist",
+                strengths: ["Feminine silhouette", "Defined waist", "Balanced proportions"]
+            },
+            rectangle: {
+                name: "Rectangle",
+                description: "Athletic straight silhouette", 
+                strengths: ["Athletic build", "Versatile styling", "Clean lines"]
+            },
+            circle: {
+                name: "Circle",
+                description: "Fuller midsection with soft curves",
+                strengths: ["Soft feminine curves", "Versatile proportions"]
+            },
+            triangle: {
+                name: "Triangle",
+                description: "Narrower shoulders with fuller hips",
+                strengths: ["Balanced lower body", "Feminine curves"]
+            },
+            invertedTriangle: {
+                name: "Inverted Triangle",
+                description: "Broader shoulders with narrower hips",
+                strengths: ["Athletic shoulders", "Strong upper body"]
+            }
+        };
+
+        var recommendations = {
+            hourglass: {
+                feminine: [
+                    { item: "Wrap dresses that highlight waist", image: "wrap-dress.jpg" },
+                    { item: "Belted coats to emphasize curves", image: "belted-coat.jpg" },
+                    { item: "High-waisted trousers", image: "high-waist-trousers.jpg" },
+                    { item: "Fitted dresses with defined waist", image: "fitted-dress.jpg" }
+                ],
+                masculine: [
+                    { item: "Fitted blazers", image: "fitted-blazer.jpg" },
+                    { item: "Structured shirts", image: "structured-shirt.jpg" },
+                    { item: "Tailored trousers", image: "tailored-trousers.jpg" }
+                ],
+                unisex: [
+                    { item: "Belted jackets", image: "belted-jacket.jpg" },
+                    { item: "High-waisted jeans", image: "high-waist-jeans.jpg" },
+                    { item: "Fitted tees with waist definition", image: "fitted-tees.jpg" }
+                ]
+            },
+            rectangle: {
+                feminine: [
+                    { item: "Peplum tops to create waist illusion", image: "peplum-top.jpg" },
+                    { item: "Ruffled blouses for feminine detail", image: "ruffled-blouse.jpg" },
+                    { item: "Cinched waist blazers", image: "cinched-blazer.jpg" },
+                    { item: "Bow details and embellishments", image: "bow-detail.jpg" },
+                    { item: "Textured pieces for dimension", image: "textured-piece.jpg" }
+                ],
+                masculine: [
+                    { item: "Layered shirts for structure", image: "layered-shirt.jpg" },
+                    { item: "Textured sweaters", image: "textured-sweater.jpg" },
+                    { item: "Straight cut pants", image: "straight-pants.jpg" }
+                ],
+                unisex: [
+                    { item: "Skinny jeans", image: "skinny-jeans.jpg" },
+                    { item: "Straight cut pieces", image: "straight-cut.jpg" },
+                    { item: "Clothing with waist-creating details", image: "waist-detail.jpg" }
+                ]
+            },
+            circle: {
+                feminine: [
+                    { item: "Straight tunics to camouflage waist", image: "straight-tunic.jpg" },
+                    { item: "A-line dresses with no waist definition", image: "aline-dress.jpg" },
+                    { item: "Flowing blouses", image: "flowing-blouse.jpg" },
+                    { item: "Unstructured dresses in straight lines", image: "unstructured-dress.jpg" }
+                ],
+                masculine: [
+                    { item: "Straight cut blazers", image: "straight-blazer.jpg" },
+                    { item: "Unstructured shirts", image: "unstructured-shirt.jpg" },
+                    { item: "Relaxed trousers", image: "relaxed-trousers.jpg" }
+                ],
+                unisex: [
+                    { item: "Straight coats with no waist emphasis", image: "straight-coat.jpg" },
+                    { item: "Loose tunics", image: "loose-tunic.jpg" },
+                    { item: "Pieces without structure at waist", image: "unstructured-piece.jpg" }
+                ]
+            },
+            triangle: {
+                feminine: [
+                    { item: "Printed blouses to draw eye upward", image: "printed-blouse.jpg" },
+                    { item: "Statement necklaces for upper body focus", image: "statement-necklace.jpg" },
+                    { item: "Puff shoulder tops to balance proportions", image: "puff-shoulder.jpg" },
+                    { item: "Bright colored tops", image: "bright-top.jpg" }
+                ],
+                masculine: [
+                    { item: "Structured blazers for upper body", image: "structured-blazer.jpg" },
+                    { item: "Layered tops", image: "layered-tops.jpg" },
+                    { item: "Dark colored bottoms", image: "dark-bottoms.jpg" }
+                ],
+                unisex: [
+                    { item: "Bold upper pieces", image: "bold-upper.jpg" },
+                    { item: "Dark bottoms to minimize hips", image: "dark-bottom.jpg" },
+                    { item: "Statement accessories on upper body", image: "statement-accessories.jpg" }
+                ]
+            },
+            invertedTriangle: {
+                feminine: [
+                    { item: "Palazzo trousers for lower body volume", image: "palazzo-trousers.jpg" },
+                    { item: "Voluminous skirts to balance shoulders", image: "voluminous-skirt.jpg" },
+                    { item: "Colorful bottoms to draw attention down", image: "colorful-bottoms.jpg" },
+                    { item: "A-line skirts", image: "aline-skirt.jpg" }
+                ],
+                masculine: [
+                    { item: "Straight leg pants", image: "straight-leg.jpg" },
+                    { item: "Textured bottoms", image: "textured-bottoms.jpg" },
+                    { item: "Simple tops without shoulder emphasis", image: "simple-tops.jpg" }
+                ],
+                unisex: [
+                    { item: "Wide leg pants", image: "wide-leg.jpg" },
+                    { item: "Light colored bottoms", image: "light-bottoms.jpg" },
+                    { item: "Minimal tops", image: "minimal-tops.jpg" }
+                ]
+            }
+        };
+
+        function startUpload() {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('upload-screen').style.display = 'block';
+        }
+
+        function clickUpload() {
+            document.getElementById('photo-input').click();
+        }
+
+        function selectQuizOption(questionNum, answer, element) {
+            var questionKey = 'q' + questionNum;
+            quizAnswers[questionKey] = answer;
+            
+            var siblings = element.parentElement.querySelectorAll('.quiz-option');
+            for (var i = 0; i < siblings.length; i++) {
+                siblings[i].classList.remove('selected');
+            }
+            element.classList.add('selected');
+            
+            checkQuizComplete();
+        }
+
+        function checkQuizComplete() {
+            var allAnswered = quizAnswers.q1 && quizAnswers.q2 && quizAnswers.q3 && quizAnswers.q4 && quizAnswers.q5;
+            document.getElementById('quiz-submit-btn').disabled = !allAnswered;
+        }
+
+        function submitQuiz() {
+            var q1 = quizAnswers.q1;
+            var q2 = quizAnswers.q2;
+            var q3 = quizAnswers.q3;
+            var q4 = quizAnswers.q4;
+            var q5 = quizAnswers.q5;
+            
+            if (q1 === 'a' && q2 === 'a' && q4 === 'a') {
+                userBodyType = 'hourglass';
+            }
+            else if ((q2 === 'b' || q2 === 'c') && (q4 === 'b' || (q1 === 'a' && q3 === 'a'))) {
+                userBodyType = 'rectangle';
+            }
+            else if ((q2 === 'c' || q3 === 'b') && q4 === 'c') {
+                userBodyType = 'circle';
+            }
+            else if (q1 === 'c' && (q3 === 'c' || q4 === 'd')) {
+                userBodyType = 'triangle';
+            }
+            else if (q1 === 'b' && (q3 === 'd' || q4 === 'e')) {
+                userBodyType = 'invertedTriangle';
+            }
+            else if (q4 === 'a') {
+                userBodyType = 'hourglass';
+            }
+            else if (q4 === 'c') {
+                userBodyType = 'circle';
+            }
+            else if (q4 === 'd') {
+                userBodyType = 'triangle';
+            }
+            else if (q4 === 'e') {
+                userBodyType = 'invertedTriangle';
+            }
+            else {
+                userBodyType = 'rectangle';
+            }
+            
+            var heightText = '';
+            if (q5 === 'a') heightText = 'Petite (Under 5\'3")';
+            else if (q5 === 'b') heightText = 'Average Height (5\'3" - 5\'7")';
+            else if (q5 === 'c') heightText = 'Tall (5\'8" - 5\'11")';
+            else if (q5 === 'd') heightText = 'Very Tall (6\'0"+)';
+            
+            // Display the results on the page
+            document.getElementById('result-body-type-name').textContent = bodyData[userBodyType].name;
+            document.getElementById('result-body-type-desc').textContent = bodyData[userBodyType].description;
+            document.getElementById('result-height-info').textContent = heightText;
+            
+            // Hide upload screen and show body type result screen
+            document.getElementById('upload-screen').style.display = 'none';
+            document.getElementById('body-type-result-screen').style.display = 'block';
+        }
+
+        function proceedToStylePreferences() {
+            document.getElementById('body-type-result-screen').style.display = 'none';
+            document.getElementById('style-preference-screen').style.display = 'block';
+        }
+
+        function chooseStyle(style) {
+            styleChoice = style;
+            var buttons = document.querySelectorAll('.style-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            document.getElementById('style-' + style).classList.add('active');
+        }
+
+        function checkInputs() {
+            userLocation = document.getElementById('location-input').value.trim();
+            var btn = document.getElementById('quiz-submit-btn');
+            if (userPhoto && userLocation) {
+                btn.disabled = false;
+            } else {
+                btn.disabled = true;
+            }
+        }
+
+        function runAnalysis() {
+            if (userPhoto && userLocation && userBodyType) {
+                document.getElementById('style-preference-screen').style.display = 'none';
+                
+                setTimeout(function() {
+                    showResults();
+                }, 1500);
+            }
+        }
+
+        function showResults() {
+            document.getElementById('weather-location').textContent = userLocation;
+            document.getElementById('body-type-name').textContent = bodyData[userBodyType].name;
+            document.getElementById('body-type-desc').textContent = bodyData[userBodyType].description;
+            
+            var recsContainer = document.getElementById('recommendations-container');
+            recsContainer.innerHTML = '';
+            
+            var recs = recommendations[userBodyType];
+            var types = [
+                { key: 'feminine', title: 'Feminine Styles' },
+                { key: 'masculine', title: 'Masculine Styles' },
+                { key: 'unisex', title: 'Unisex Styles' }
+            ];
+            
+            for (var j = 0; j < types.length; j++) {
+                var type = types[j];
+                if (styleChoice === 'all' || styleChoice === type.key) {
+                    var div = document.createElement('div');
+                    div.style.cssText = 'background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);';
+                    
+                    var html = '<h4 style="font-size: 18px; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;">' + type.title + '</h4>';
+                    for (var k = 0; k < recs[type.key].length; k++) {
+                        var recItem = recs[type.key][k];
+                        var pinterestUrl = 'https://www.pinterest.com/search/pins/?q=' + encodeURIComponent(recItem.item + ' outfit');
+                        html += '<div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0;">';
+                        html += '<div style="background: #f5f5f5; height: 150px; border-radius: 4px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 12px; border: 1px solid #e0e0e0;">Image: ' + recItem.image + '</div>';
+                        html += '<p style="margin-bottom: 10px; font-weight: 500;">' + recItem.item + '</p>';
+                        html += '<a href="' + pinterestUrl + '" target="_blank" style="background: #E60023; color: white; padding: 8px 16px; font-size: 12px; text-decoration: none; border-radius: 20px; text-transform: uppercase;">Pinterest</a>';
+                        html += '</div>';
+                    }
+                    
+                    div.innerHTML = html;
+                    recsContainer.appendChild(div);
+                }
+            }
+
+            document.getElementById('results-screen').style.display = 'block';
+        }
+
+        function restart() {
+            userPhoto = null;
+            userLocation = '';
+            styleChoice = 'all';
+            userBodyType = '';
+            quizAnswers = { q1: null, q2: null, q3: null, q4: null, q5: null };
+            
+            document.getElementById('photo-input').value = '';
+            document.getElementById('location-input').value = '';
+            document.getElementById('photo-preview').style.display = 'none';
+            document.getElementById('photo-placeholder').style.display = 'block';
+            
+            var quizOptions = document.querySelectorAll('.quiz-option');
+            for (var i = 0; i < quizOptions.length; i++) {
+                quizOptions[i].classList.remove('selected');
+            }
+            
+            document.getElementById('quiz-submit-btn').disabled = true;
+            
+            chooseStyle('all');
+            checkInputs();
+            document.getElementById('results-screen').style.display = 'none';
+            document.getElementById('body-type-result-screen').style.display = 'none';
+            document.getElementById('style-preference-screen').style.display = 'none';
+            document.getElementById('welcome-screen').style.display = 'block';
+        }
+
+        document.getElementById('photo-input').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    userPhoto = e.target.result;
+                    document.getElementById('preview-image').src = userPhoto;
+                    document.getElementById('photo-preview').style.display = 'block';
+                    document.getElementById('photo-placeholder').style.display = 'none';
+                    checkInputs();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('location-input').addEventListener('input', checkInputs);
+    </script>
+</body>
+</html> 
