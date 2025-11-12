@@ -820,12 +820,10 @@
             else if (q5 === 'c') heightText = 'Tall (5\'8" - 5\'11")';
             else if (q5 === 'd') heightText = 'Very Tall (6\'0"+)';
             
-            // Display the results on the page
             document.getElementById('result-body-type-name').textContent = bodyData[userBodyType].name;
             document.getElementById('result-body-type-desc').textContent = bodyData[userBodyType].description;
             document.getElementById('result-height-info').textContent = heightText;
             
-            // Hide upload screen and show body type result screen
             document.getElementById('upload-screen').style.display = 'none';
             document.getElementById('body-type-result-screen').style.display = 'block';
         }
@@ -857,55 +855,100 @@
         function runAnalysis() {
             if (userPhoto && userLocation && userBodyType) {
                 document.getElementById('style-preference-screen').style.display = 'none';
-                
-                // Show loading state
                 document.getElementById('results-screen').style.display = 'block';
                 document.getElementById('recommendations-container').innerHTML = '<div style="text-align: center; padding: 40px;"><p style="font-size: 20px; color: #666;">Loading weather data and recommendations...</p></div>';
                 
-                // Fetch weather data
                 fetchWeather(userLocation);
             }
         }
 
         function fetchWeather(location) {
-            var apiKey = '02db1233fb353ecf5cf954b10f7b387e';
-            var url = 'https://api.openweathermap.org/data/2.5/weather?q=' + encodeURIComponent(location) + '&units=imperial&appid=' + apiKey;
+            // Step 1: Get coordinates from location name using Open-Meteo geocoding
+            var geocodeUrl = 'https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(location) + '&count=1&language=en&format=json';
             
-            fetch(url)
+            fetch(geocodeUrl)
                 .then(function(response) {
                     if (!response.ok) {
                         throw new Error('Location not found');
                     }
                     return response.json();
                 })
+                .then(function(geoData) {
+                    if (!geoData.results || geoData.results.length === 0) {
+                        throw new Error('Location not found');
+                    }
+                    
+                    var lat = geoData.results[0].latitude;
+                    var lon = geoData.results[0].longitude;
+                    var locationName = geoData.results[0].name;
+                    var country = geoData.results[0].country || '';
+                    
+                    // Step 2: Get weather data using coordinates
+                    var weatherUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=auto';
+                    
+                    return fetch(weatherUrl).then(function(weatherResponse) {
+                        if (!weatherResponse.ok) {
+                            throw new Error('Weather data not available');
+                        }
+                        return weatherResponse.json();
+                    }).then(function(weatherData) {
+                        return {
+                            weatherData: weatherData,
+                            locationName: locationName,
+                            country: country
+                        };
+                    });
+                })
                 .then(function(data) {
-                    var tempF = Math.round(data.main.temp);
+                    var tempF = Math.round(data.weatherData.current.temperature_2m);
                     var tempC = Math.round((tempF - 32) * 5/9);
-                    var condition = data.weather[0].main;
-                    var description = data.weather[0].description;
-                    var locationName = data.name + ', ' + data.sys.country;
+                    var weatherCode = data.weatherData.current.weather_code;
                     
-                    // Update weather display
-                    document.getElementById('weather-temp').textContent = tempF + '°F (' + tempC + '°C) in ' + locationName;
-                    document.getElementById('weather-desc').textContent = description.charAt(0).toUpperCase() + description.slice(1);
+                    // Convert weather code to condition and description
+                    var weatherInfo = getWeatherFromCode(weatherCode);
+                    var condition = weatherInfo.condition;
+                    var description = weatherInfo.description;
                     
-                    // Show results with weather-adjusted recommendations (using Celsius for logic)
+                    var displayLocation = data.locationName + (data.country ? ', ' + data.country : '');
+                    
+                    document.getElementById('weather-temp').textContent = tempF + '°F (' + tempC + '°C) in ' + displayLocation;
+                    document.getElementById('weather-desc').textContent = description;
+                    
                     showResults(tempC, condition);
                 })
                 .catch(function(error) {
                     console.error('Weather fetch error:', error);
-                    // Show results anyway with default weather
                     document.getElementById('weather-temp').textContent = '72°F (22°C) in ' + userLocation;
-                    document.getElementById('weather-desc').textContent = 'Unable to fetch weather';
+                    document.getElementById('weather-desc').textContent = 'Unable to fetch current weather';
                     showResults(22, 'Clear');
                 });
+        }
+
+        function getWeatherFromCode(code) {
+            // Open-Meteo WMO Weather codes
+            // https://open-meteo.com/en/docs
+            if (code === 0) return { condition: 'Clear', description: 'Clear sky' };
+            if (code === 1) return { condition: 'Clear', description: 'Mainly clear' };
+            if (code === 2) return { condition: 'Clouds', description: 'Partly cloudy' };
+            if (code === 3) return { condition: 'Clouds', description: 'Overcast' };
+            if (code === 45 || code === 48) return { condition: 'Fog', description: 'Foggy' };
+            if (code === 51 || code === 53 || code === 55) return { condition: 'Drizzle', description: 'Drizzle' };
+            if (code === 56 || code === 57) return { condition: 'Drizzle', description: 'Freezing drizzle' };
+            if (code === 61 || code === 63 || code === 65) return { condition: 'Rain', description: 'Rain' };
+            if (code === 66 || code === 67) return { condition: 'Rain', description: 'Freezing rain' };
+            if (code === 71 || code === 73 || code === 75) return { condition: 'Snow', description: 'Snow' };
+            if (code === 77) return { condition: 'Snow', description: 'Snow grains' };
+            if (code === 80 || code === 81 || code === 82) return { condition: 'Rain', description: 'Rain showers' };
+            if (code === 85 || code === 86) return { condition: 'Snow', description: 'Snow showers' };
+            if (code === 95) return { condition: 'Thunderstorm', description: 'Thunderstorm' };
+            if (code === 96 || code === 99) return { condition: 'Thunderstorm', description: 'Thunderstorm with hail' };
+            return { condition: 'Clear', description: 'Clear' };
         }
 
         function showResults(temperature, weatherCondition) {
             var recsContainer = document.getElementById('recommendations-container');
             recsContainer.innerHTML = '';
             
-            // Update body type display
             var bodyTypeNameElem = document.getElementById('body-type-name');
             var bodyTypeDescElem = document.getElementById('body-type-desc');
             if (bodyTypeNameElem && bodyTypeDescElem) {
@@ -920,7 +963,6 @@
                 { key: 'unisex', title: 'Unisex Styles' }
             ];
             
-            // Add weather-specific recommendations
             var weatherRecs = getWeatherRecommendations(temperature, weatherCondition);
             
             for (var j = 0; j < types.length; j++) {
@@ -931,7 +973,6 @@
                     
                     var html = '<h4 style="font-size: 18px; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;">' + type.title + '</h4>';
                     
-                    // Add weather-specific items first if applicable
                     if (weatherRecs[type.key] && weatherRecs[type.key].length > 0) {
                         html += '<div style="background: #e3f2fd; padding: 15px; border-radius: 4px; margin-bottom: 20px;"><p style="font-size: 14px; color: #1565c0; margin: 0;"><strong>Weather-appropriate:</strong></p></div>';
                         for (var w = 0; w < weatherRecs[type.key].length; w++) {
@@ -945,7 +986,6 @@
                         }
                     }
                     
-                    // Add regular body-type recommendations
                     for (var k = 0; k < recs[type.key].length; k++) {
                         var recItem = recs[type.key][k];
                         var pinterestUrl2 = 'https://www.pinterest.com/search/pins/?q=' + encodeURIComponent(recItem.item + ' outfit');
@@ -969,7 +1009,6 @@
                 unisex: []
             };
             
-            // Cold weather (below 10°C)
             if (temp < 10) {
                 weatherItems.feminine.push(
                     { item: "Warm coat or parka", image: "warm-coat.jpg" },
@@ -987,7 +1026,6 @@
                     { item: "Boots", image: "unisex-boots.jpg" }
                 );
             }
-            // Cool weather (10-18°C)
             else if (temp >= 10 && temp < 18) {
                 weatherItems.feminine.push(
                     { item: "Light jacket or cardigan", image: "light-jacket.jpg" },
@@ -1002,7 +1040,6 @@
                     { item: "Hoodie", image: "hoodie.jpg" }
                 );
             }
-            // Warm weather (18-25°C)
             else if (temp >= 18 && temp < 25) {
                 weatherItems.feminine.push(
                     { item: "Light blouse", image: "light-blouse.jpg" },
@@ -1017,7 +1054,6 @@
                     { item: "Jeans", image: "jeans.jpg" }
                 );
             }
-            // Hot weather (above 25°C)
             else {
                 weatherItems.feminine.push(
                     { item: "Summer dress", image: "summer-dress.jpg" },
@@ -1035,7 +1071,6 @@
                 );
             }
             
-            // Rainy weather
             if (condition === 'Rain' || condition === 'Drizzle' || condition === 'Thunderstorm') {
                 weatherItems.feminine.unshift({ item: "Waterproof jacket", image: "rain-jacket.jpg" });
                 weatherItems.masculine.unshift({ item: "Rain jacket", image: "mens-rain-jacket.jpg" });
