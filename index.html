@@ -86,6 +86,13 @@
             justify-content: center;
             color: #666;
             font-style: italic;
+            overflow: hidden;
+        }
+        
+        .hero-image img, .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .photo-section {
@@ -95,7 +102,7 @@
 
         .photo-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 40px;
         }
 
@@ -388,7 +395,7 @@
                         <button class="btn" onclick="startUpload()">Begin Style Journey</button>
                     </div>
                     <div class="hero-image">
-                        Fashion Photography Placeholder 1
+                        <img src="image1.jpg" alt="Diverse group of women in stylish black outfits" onerror="this.style.display='none'; this.parentElement.innerHTML='Fashion Photography Placeholder 1';">
                     </div>
                 </div>
             </div>
@@ -398,10 +405,13 @@
             <div class="container">
                 <div class="photo-grid">
                     <div class="photo-placeholder">
-                        Fashion Photography Placeholder 2
+                        <img src="image2.jpg" alt="Women in black dresses showcasing different styles" onerror="this.style.display='none'; this.parentElement.innerHTML='Fashion Photography Placeholder 2';">
                     </div>
                     <div class="photo-placeholder">
-                        Fashion Photography Placeholder 3
+                        <img src="image3.jpg" alt="Fashion group wearing mixed patterns and styles" onerror="this.style.display='none'; this.parentElement.innerHTML='Fashion Photography Placeholder 3';">
+                    </div>
+                    <div class="photo-placeholder">
+                        <img src="image4.jpg" alt="Diverse group in athletic and streetwear fashion" onerror="this.style.display='none'; this.parentElement.innerHTML='Fashion Photography Placeholder 4';">
                     </div>
                 </div>
             </div>
