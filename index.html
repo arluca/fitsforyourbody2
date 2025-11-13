@@ -863,14 +863,12 @@
         }
 
         function fetchWeather(location) {
-            // Step 1: Get coordinates from location name using Open-Meteo geocoding
+            // Using Open-Meteo API with simplified approach
+            // First, try to geocode the location
             var geocodeUrl = 'https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(location) + '&count=1&language=en&format=json';
             
             fetch(geocodeUrl)
                 .then(function(response) {
-                    if (!response.ok) {
-                        throw new Error('Location not found');
-                    }
                     return response.json();
                 })
                 .then(function(geoData) {
@@ -883,28 +881,26 @@
                     var locationName = geoData.results[0].name;
                     var country = geoData.results[0].country || '';
                     
-                    // Step 2: Get weather data using coordinates
-                    var weatherUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=auto';
+                    // Get weather using coordinates
+                    var weatherUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,weather_code&temperature_unit=fahrenheit';
                     
-                    return fetch(weatherUrl).then(function(weatherResponse) {
-                        if (!weatherResponse.ok) {
-                            throw new Error('Weather data not available');
-                        }
-                        return weatherResponse.json();
-                    }).then(function(weatherData) {
-                        return {
-                            weatherData: weatherData,
-                            locationName: locationName,
-                            country: country
-                        };
-                    });
+                    return fetch(weatherUrl)
+                        .then(function(weatherResponse) {
+                            return weatherResponse.json();
+                        })
+                        .then(function(weatherData) {
+                            return {
+                                weatherData: weatherData,
+                                locationName: locationName,
+                                country: country
+                            };
+                        });
                 })
                 .then(function(data) {
                     var tempF = Math.round(data.weatherData.current.temperature_2m);
                     var tempC = Math.round((tempF - 32) * 5/9);
                     var weatherCode = data.weatherData.current.weather_code;
                     
-                    // Convert weather code to condition and description
                     var weatherInfo = getWeatherFromCode(weatherCode);
                     var condition = weatherInfo.condition;
                     var description = weatherInfo.description;
@@ -918,15 +914,15 @@
                 })
                 .catch(function(error) {
                     console.error('Weather fetch error:', error);
+                    // Show default weather with styling recommendations
                     document.getElementById('weather-temp').textContent = '72°F (22°C) in ' + userLocation;
-                    document.getElementById('weather-desc').textContent = 'Unable to fetch current weather';
+                    document.getElementById('weather-desc').textContent = 'Weather unavailable - showing general recommendations';
                     showResults(22, 'Clear');
                 });
         }
-
+        
         function getWeatherFromCode(code) {
             // Open-Meteo WMO Weather codes
-            // https://open-meteo.com/en/docs
             if (code === 0) return { condition: 'Clear', description: 'Clear sky' };
             if (code === 1) return { condition: 'Clear', description: 'Mainly clear' };
             if (code === 2) return { condition: 'Clouds', description: 'Partly cloudy' };
@@ -944,6 +940,8 @@
             if (code === 96 || code === 99) return { condition: 'Thunderstorm', description: 'Thunderstorm with hail' };
             return { condition: 'Clear', description: 'Clear' };
         }
+
+
 
         function showResults(temperature, weatherCondition) {
             var recsContainer = document.getElementById('recommendations-container');
