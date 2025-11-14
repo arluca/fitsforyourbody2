@@ -18,13 +18,38 @@
             color: white;
             text-align: center;
             padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .header h1 {
             font-size: 28px;
             letter-spacing: 4px;
             text-transform: uppercase;
-            margin: 0;
+            margin: 0 0 15px 0;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .nav-bar a:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .container {
@@ -370,15 +395,30 @@
             .research-banner p {
                 text-align: left;
             }
+
+            .nav-bar {
+                gap: 15px;
+            }
+
+            .nav-bar a {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
         }
     </style>
 </head>
 <body>
     <header class="header">
         <h1>FITS FOR YOUR BODY</h1>
+        <nav class="nav-bar">
+            <a href="#mission">Mission</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#research">Research</a>
+            <a href="#get-started" onclick="startUpload(); return false;">Get Started</a>
+        </nav>
     </header>
 
-    <section class="mission">
+    <section class="mission" id="mission">
         <div class="container">
             <h2>Our Mission</h2>
             <p>We believe everyone deserves to feel confident in their clothing choices. Our platform addresses clothing and body insecurity by providing a supportive, evidence-based approach to personal styling. By serving as a helpful middleman in deciding what to wear, we empower users to embrace their unique body type and feel their most confident self through fashion choices that truly work for them.</p>
@@ -417,7 +457,7 @@
             </div>
         </section>
 
-        <section class="how-works">
+        <section class="how-works" id="how-it-works">
             <div class="container">
                 <h2>How It Works</h2>
                 <div class="works-boxes">
@@ -438,7 +478,7 @@
                     </div>
                 </div>
 
-                <div class="research-banner">
+                <div class="research-banner" id="research">
                     <h3>Research-Backed Recommendations</h3>
                     <p>All recommendations are grounded in peer-reviewed academic studies from computer vision and fashion research. Our approach is based on analysis of over 18,000 celebrity images with body measurements and clothing preferences (Hidayati et al., 2018), understanding clothing compatibility through body shape correlation using the Fashion Takes Shape dataset with 181 users (Sattar et al., 2019), and style guidelines from fashion experts. The research demonstrates strong correlations between body shapes and clothing categories, with studies showing that certain garments (like wrap dresses for hourglass, peplum tops for rectangle, straight tunics for circle, printed blouses for triangle, and palazzo pants for inverted triangle) significantly enhance body proportions and create visual balance.</p>
                 </div>
