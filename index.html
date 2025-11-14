@@ -457,6 +457,7 @@
                 <div class="upload-grid">
                     <div class="form-card">
                         <h3>Your Photo</h3>
+                        <p id="photo-error" style="color: #dc3545; font-weight: bold; margin-bottom: 10px; display: none;">⚠️ Missing input - Photo required</p>
                         <div onclick="clickUpload()" class="upload-area">
                             <div id="photo-preview" class="hidden">
                                 <img id="preview-image" style="max-height: 250px; border-radius: 8px; margin-bottom: 20px;" />
@@ -473,6 +474,7 @@
 
                     <div class="form-card">
                         <h3>Your Location</h3>
+                        <p id="location-error" style="color: #dc3545; font-weight: bold; margin-bottom: 10px; display: none;">⚠️ Missing input - Location required</p>
                         <input
                             id="location-input"
                             type="text"
