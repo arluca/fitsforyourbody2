@@ -542,7 +542,7 @@
                 </div>
 
                 <div style="text-align: center; margin-bottom: 40px;">
-                    <button id="quiz-submit-btn" onclick="submitQuiz()" class="btn" disabled>
+                    <button id="quiz-submit-btn" onclick="submitQuiz()" class="btn">
                         See My Body Type
                     </button>
                 </div>
@@ -784,23 +784,41 @@
         }
 
         function checkQuizComplete() {
-            var allAnswered = quizAnswers.q1 && quizAnswers.q2 && quizAnswers.q3 && quizAnswers.q4 && quizAnswers.q5;
-            var hasPhotoAndLocation = userPhoto && userLocation;
-            document.getElementById('quiz-submit-btn').disabled = !(allAnswered && hasPhotoAndLocation);
+            // This function is no longer needed for button state
+            // Button is always enabled, validation happens on click
         }
 
         function submitQuiz() {
-            // First check if photo and location are provided
+            // Get current location value
+            userLocation = document.getElementById('location-input').value.trim();
+            
+            var hasErrors = false;
+            
+            // Check if photo is uploaded
             if (!userPhoto) {
                 document.getElementById('photo-error').style.display = 'block';
-                document.getElementById('photo-input').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                hasErrors = true;
+            }
+            
+            // Check if location is entered
+            if (!userLocation || userLocation === '') {
+                document.getElementById('location-error').style.display = 'block';
+                hasErrors = true;
+            }
+            
+            // If there are errors, scroll to first error and stop
+            if (hasErrors) {
+                if (!userPhoto) {
+                    document.getElementById('photo-input').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else if (!userLocation) {
+                    document.getElementById('location-input').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
                 return;
             }
             
-            if (!userLocation) {
-                document.getElementById('location-error').style.display = 'block';
-                document.getElementById('location-input').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                document.getElementById('location-input').focus();
+            // Check if all quiz questions are answered
+            if (!quizAnswers.q1 || !quizAnswers.q2 || !quizAnswers.q3 || !quizAnswers.q4 || !quizAnswers.q5) {
+                alert('Please answer all quiz questions before continuing.');
                 return;
             }
             
@@ -1148,13 +1166,18 @@
                     document.getElementById('preview-image').src = userPhoto;
                     document.getElementById('photo-preview').style.display = 'block';
                     document.getElementById('photo-placeholder').style.display = 'none';
-                    checkInputs();
+                    document.getElementById('photo-error').style.display = 'none';
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        document.getElementById('location-input').addEventListener('input', checkInputs);
+        document.getElementById('location-input').addEventListener('input', function() {
+            userLocation = this.value.trim();
+            if (userLocation) {
+                document.getElementById('location-error').style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
