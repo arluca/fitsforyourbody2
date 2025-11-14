@@ -785,10 +785,25 @@
 
         function checkQuizComplete() {
             var allAnswered = quizAnswers.q1 && quizAnswers.q2 && quizAnswers.q3 && quizAnswers.q4 && quizAnswers.q5;
-            document.getElementById('quiz-submit-btn').disabled = !allAnswered;
+            var hasPhotoAndLocation = userPhoto && userLocation;
+            document.getElementById('quiz-submit-btn').disabled = !(allAnswered && hasPhotoAndLocation);
         }
 
         function submitQuiz() {
+            // First check if photo and location are provided
+            if (!userPhoto) {
+                document.getElementById('photo-error').style.display = 'block';
+                document.getElementById('photo-input').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            
+            if (!userLocation) {
+                document.getElementById('location-error').style.display = 'block';
+                document.getElementById('location-input').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('location-input').focus();
+                return;
+            }
+            
             var q1 = quizAnswers.q1;
             var q2 = quizAnswers.q2;
             var q3 = quizAnswers.q3;
@@ -856,12 +871,22 @@
 
         function checkInputs() {
             userLocation = document.getElementById('location-input').value.trim();
-            var btn = document.getElementById('quiz-submit-btn');
-            if (userPhoto && userLocation) {
-                btn.disabled = false;
+            
+            // Show or hide error messages
+            if (!userPhoto && document.getElementById('quiz-submit-btn')) {
+                document.getElementById('photo-error').style.display = 'block';
             } else {
-                btn.disabled = true;
+                document.getElementById('photo-error').style.display = 'none';
             }
+            
+            if (!userLocation && document.getElementById('quiz-submit-btn')) {
+                document.getElementById('location-error').style.display = 'block';
+            } else {
+                document.getElementById('location-error').style.display = 'none';
+            }
+            
+            // Update button state
+            checkQuizComplete();
         }
 
         function runAnalysis() {
